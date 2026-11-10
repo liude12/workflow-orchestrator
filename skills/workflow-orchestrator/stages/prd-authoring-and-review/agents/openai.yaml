@@ -1,0 +1,4 @@
+interface:
+  display_name: "S5 PRD 编写与需求评审"
+  short_description: "将有效方案转为配套 PRD 与 SRS，明确验收，落实真实评审并核对授权交付清单"
+  default_prompt: "使用 $prd-authoring-and-review，接续当前项目的 S5，核对有效上游，形成配套 PRD、SRS、追踪与验收，整理评审问题并核对具体版本的交付清单。"

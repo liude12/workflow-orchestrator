@@ -1,0 +1,4 @@
+interface:
+  display_name: "S2 业务建模"
+  short_description: "明确业务角色、对象、流程、规则、状态与异常，保留来源、决定和可推演的模型"
+  default_prompt: "使用 $business-modeling，接续当前项目的 S2，建立业务模型并推演关键场景，集中提交未定规则。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "S4 原型设计与用户验证"
+  short_description: "生成可操作 HTML 原型并实际走查任务，区分真实观察与豁免，溯源反馈及修订版本"
+  default_prompt: "使用 $prototype-design，接续当前项目的 S4，生成并操作 HTML 原型，记录内部检查、待验证范围及反馈处理。"

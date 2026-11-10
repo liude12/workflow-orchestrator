@@ -1,0 +1,4 @@
+interface:
+  display_name: "S1 需求澄清与竞品调研"
+  short_description: "从产品想法或已有需求形成有来源的竞品报告、用户问题、目标范围与需求定义"
+  default_prompt: "使用 $requirement-discovery，接续当前项目的 S1 需求澄清，开展竞品调研并保存独立报告、T01 与待决事项。"

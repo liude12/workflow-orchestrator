@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="prototype-version" content="forward-prototype-v1">
+  <title>我的任务 · 个人任务系统</title>
+  <style>
+    :root { color-scheme: light; --ink:#20324c; --muted:#617086; --blue:#2457c6; --blue-soft:#edf3ff; --line:#dbe3ee; --bg:#f3f6fa; --white:#fff; --red:#a8363e; --green:#267157; --radius:18px; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; font-size:16px; line-height:1.6; }
+    button,input,textarea { font:inherit; }
+    button { min-height:44px; border:1px solid var(--line); border-radius:10px; padding:9px 17px; background:var(--white); color:var(--ink); cursor:pointer; font-weight:600; }
+    button:hover { background:#f2f5fa; border-color:#a8b7cd; }
+    button:disabled { opacity:.6; cursor:wait; }
+    button.primary { background:var(--blue); border-color:var(--blue); color:white; }
+    button.primary:hover { background:#1c45a0; }
+    button.danger { color:var(--red); border-color:#e8c5c8; }
+    button.quiet { background:transparent; border-color:transparent; color:var(--muted); }
+    :focus-visible { outline:3px solid #91b5ff; outline-offset:3px; }
+    [hidden] { display:none !important; }
+    h1,h2,h3,p { margin:0; }
+    h1 { font-size:34px; line-height:1.3; letter-spacing:-.6px; }
+    h2 { font-size:22px; line-height:1.5; }
+    .wrap { width:min(1080px,calc(100% - 64px)); margin:auto; }
+    .topbar { background:var(--white); border-bottom:1px solid var(--line); }
+    .topbar-inner { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:750; letter-spacing:.5px; }
+    .brand-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; background:var(--blue); color:white; font-size:22px; }
+    .demo-label { color:var(--muted); font-size:12px; }
+    main { min-height:calc(100vh - 185px); padding-top:45px; padding-bottom:36px; }
+    .page-head { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:26px; }
+    .subtitle { margin-top:8px; color:var(--muted); font-size:15px; }
+    .panel { background:var(--white); border:1px solid var(--line); border-radius:var(--radius); }
+    .create-panel { padding:26px; margin-bottom:22px; box-shadow:0 8px 25px #263c6010; }
+    .create-head { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    label { display:block; font-weight:650; font-size:15px; margin-bottom:7px; }
+    label span { font-weight:400; color:var(--muted); font-size:13px; }
+    input,textarea { display:block; width:100%; border:1px solid #b8c5d6; border-radius:10px; padding:12px; color:var(--ink); background:white; min-width:0; }
+    textarea { resize:vertical; min-height:110px; line-height:1.7; }
+    input[aria-invalid="true"] { border-color:var(--red); }
+    .help { color:var(--muted); font-size:13px; margin-top:7px; }
+    .error { color:var(--red); font-size:14px; margin-top:7px; }
+    .buttons { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:20px; }
+    .list-toolbar { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:19px 22px; border-bottom:1px solid var(--line); }
+    .filters { display:flex; gap:4px; padding:4px; background:var(--bg); border-radius:12px; }
+    .filter { background:transparent; border-color:transparent; padding:7px 17px; color:var(--muted); min-height:40px; }
+    .filter[aria-pressed="true"] { background:white; color:var(--blue); border-color:#d7e2f3; box-shadow:0 2px 5px #263c6009; }
+    .count { color:var(--muted); font-size:14px; white-space:nowrap; }
+    .task-list { list-style:none; margin:0; padding:0 22px; }
+    .task-list li + li { border-top:1px solid var(--line); }
+    .task-row { width:100%; display:flex; align-items:center; gap:18px; padding:23px 4px; border:0; border-radius:0; background:transparent; text-align:left; font-weight:400; }
+    .task-row:hover { background:#f7f9fd; }
+    .task-symbol { display:grid; place-items:center; width:28px; height:28px; flex:0 0 28px; border:1.5px solid #9caec7; border-radius:50%; color:var(--muted); font-size:16px; }
+    .task-symbol.done { border-color:#aad3c2; background:#edf8f2; color:var(--green); }
+    .task-symbol.cancelled { background:#f0f2f6; border-color:#d7dfe9; }
+    .task-copy { flex:1; min-width:0; }
+    .task-title { display:block; font-size:17px; font-weight:650; overflow-wrap:anywhere; line-height:1.65; }
+    .task-note { display:block; margin-top:5px; font-size:14px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .task-meta { display:flex; align-items:center; gap:17px; flex:0 0 auto; }
+    .badge { display:inline-block; padding:3px 10px; border-radius:7px; font-size:12px; font-weight:650; white-space:nowrap; color:var(--blue); background:var(--blue-soft); }
+    .badge.done { color:var(--green); background:#eaf5ef; }
+    .badge.cancelled { color:#657287; background:#edf0f5; }
+    .arrow { color:#8b9ab0; font-size:24px; font-weight:400; }
+    .empty { text-align:center; padding:60px 20px; }
+    .empty-symbol { color:#8396b3; font-size:32px; margin-bottom:12px; }
+    .empty p { color:var(--muted); margin:8px 0 20px; }
+    .feedback { border:1px solid #b5d5c3; background:#edf8f1; color:#245f43; border-radius:12px; padding:13px 17px; margin-bottom:20px; overflow-wrap:anywhere; }
+    .feedback[data-kind="error"] { background:#fff2f2; border-color:#ecc5c8; color:var(--red); }
+    .back { margin:-8px 0 22px -10px; }
+    .detail-grid { display:grid; grid-template-columns:minmax(0,1fr) 285px; gap:22px; align-items:start; }
+    .summary { padding:30px; }
+    .detail-title { margin-top:15px; font-size:28px; line-height:1.5; overflow-wrap:anywhere; }
+    .note-section { border-top:1px solid var(--line); margin-top:27px; padding-top:25px; }
+    .note-section textarea { min-height:200px; }
+    .actions { padding:25px; }
+    .actions h2 { font-size:18px; margin-bottom:10px; }
+    .actions p { color:var(--muted); font-size:14px; }
+    .actions .buttons { display:grid; }
+    .discard { padding:18px; margin:20px 0 0; background:#fff8ea; border:1px solid #ecd7a8; border-radius:12px; }
+    .discard p { font-size:14px; }
+    .discard .buttons { margin-top:12px; }
+    footer { padding:19px 0; border-top:1px solid var(--line); color:var(--muted); font-size:12px; }
+    .footer-row { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+    footer button { font-size:12px; min-height:40px; }
+    dialog { width:min(540px,calc(100% - 32px)); border:1px solid var(--line); border-radius:18px; padding:26px; color:var(--ink); box-shadow:0 18px 80px #20324c30; }
+    dialog::backdrop { background:#1a2b4560; }
+    .review-check { display:flex; gap:10px; align-items:flex-start; margin-top:22px; }
+    .review-check input { width:18px; height:18px; margin-top:5px; }
+    .review-check label { font-size:14px; }
+    .review-feedback { margin-top:16px; font-size:14px; }
+    @media(max-width:700px) {
+      .wrap { width:calc(100% - 32px); }
+      .topbar-inner { padding:14px 0; }
+      .brand { font-size:15px; }
+      .demo-label { max-width:105px; text-align:right; font-size:11px; }
+      main { padding-top:28px; }
+      h1 { font-size:28px; }
+      .page-head { gap:12px; align-items:flex-start; margin-bottom:22px; }
+      .page-head .primary { white-space:nowrap; padding-inline:12px; }
+      .subtitle { font-size:13px; }
+      .create-panel,.summary { padding:20px; }
+      .form-grid,.detail-grid { grid-template-columns:1fr; }
+      .list-toolbar { display:block; padding:12px; }
+      .filters { width:100%; }
+      .filter { flex:1; padding:7px 4px; font-size:14px; }
+      .count { display:block; margin:9px 4px 0; font-size:12px; }
+      .task-list { padding:0 15px; }
+      .task-row { gap:11px; padding:20px 0; align-items:flex-start; }
+      .task-symbol { margin-top:4px; width:24px; height:24px; flex-basis:24px; }
+      .task-title { font-size:16px; }
+      .task-meta { gap:0; padding-top:4px; }
+      .task-meta .arrow { display:none; }
+      .badge { padding:3px 7px; font-size:11px; }
+      .task-note { font-size:13px; }
+      .detail-title { font-size:25px; }
+      .actions { padding:20px; }
+      .actions .buttons { display:flex; }
+      .actions .buttons button { flex:1; }
+      .footer-row { align-items:flex-start; }
+    }
+    @media(prefers-reduced-motion:no-preference) { button { transition:background-color .12s,border-color .12s; } }
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="wrap topbar-inner"><div class="brand"><span class="brand-icon" aria-hidden="true">✓</span>个人任务</div><span class="demo-label">交互原型 · 示例数据</span></div></header>
+  <main class="wrap" id="main">
+    <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+    <section id="PAGE-01" data-page-id="PAGE-01" aria-labelledby="list-heading">
+      <div class="page-head"><div><h1 id="list-heading" tabindex="-1">我的任务</h1><p class="subtitle">记下要做的事，留住处理的思路。</p></div><button class="primary" id="open-create" aria-expanded="false" aria-controls="REG-create">＋ 新建任务</button></div>
+      <section class="panel create-panel" id="REG-create" data-region-id="REG-create" aria-labelledby="create-heading" hidden>
+        <div class="create-head"><h2 id="create-heading">新建任务</h2><button type="button" class="quiet" id="close-create">收起</button></div>
+        <form id="create-form" novalidate>
+          <div class="form-grid">
+            <div><label for="create-title">任务标题 <span>必填</span></label><input id="create-title" name="title" placeholder="例如：准备下周的工作安排" aria-required="true" aria-describedby="title-error"><p id="title-error" class="error" role="alert" hidden>请填写任务标题，不能只输入空格。</p></div>
+            <div><label for="create-note">备注 <span>选填</span></label><textarea id="create-note" name="note" placeholder="记录要点、进展或需要保留的上下文"></textarea></div>
+          </div>
+          <div class="buttons"><button class="primary" type="submit" id="create-submit">创建任务</button><span class="help">新任务将进入待办。</span></div>
+        </form>
+      </section>
+      <section class="panel" id="REG-list" data-region-id="REG-list" aria-label="任务列表">
+        <div class="list-toolbar"><div class="filters" role="group" aria-label="按任务状态筛选"><button class="filter" data-filter="all" aria-pressed="true">全部</button><button class="filter" data-filter="pending" aria-pressed="false">待办</button><button class="filter" data-filter="done" aria-pressed="false">已完成</button><button class="filter" data-filter="cancelled" aria-pressed="false">已取消</button></div><span class="count" id="task-count"></span></div>
+        <ul class="task-list" id="task-list"></ul>
+        <div class="empty" id="empty-state" hidden><div class="empty-symbol" aria-hidden="true">☷</div><h2 id="empty-title">这里还没有任务</h2><p>可以查看其他状态，或记下一件新任务。</p><button id="show-all">查看全部任务</button></div>
+      </section>
+    </section>
+    <section id="PAGE-02" data-page-id="PAGE-02" aria-labelledby="detail-title" hidden>
+      <button class="quiet back" id="back-list">← 返回任务列表</button>
+      <div class="detail-grid">
+        <section class="panel summary" id="REG-summary" data-region-id="REG-summary">
+          <span class="badge" id="detail-status"></span><h1 class="detail-title" id="detail-title" tabindex="-1"></h1>
+          <form class="note-section" id="note-form"><label for="detail-note">备注 <span>保留处理上下文</span></label><textarea id="detail-note" aria-describedby="note-help"></textarea><p class="help" id="note-help">备注可以留空，修改后记得保存。</p><div class="buttons"><button class="primary" type="submit" id="save-note">保存备注</button><span class="help" id="note-state" aria-live="polite">已保存</span></div></form>
+          <div class="discard" id="discard-confirm" role="group" aria-labelledby="discard-label" hidden><p id="discard-label">备注尚未保存，是否继续编辑？</p><div class="buttons"><button id="continue-edit" class="primary">继续编辑</button><button id="discard-return">不保存并返回</button></div></div>
+        </section>
+        <section class="panel actions" id="REG-actions" data-region-id="REG-actions" aria-labelledby="actions-heading"><h2 id="actions-heading">处理任务</h2><p id="status-explanation"></p><div class="buttons" id="task-actions"></div></section>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap footer-row"><span>仅在本次打开期间保存 · 刷新恢复示例数据</span><button id="open-review" class="quiet">演示设置</button></div></footer>
+  <dialog id="review-dialog" aria-labelledby="review-heading"><div class="create-head"><h2 id="review-heading">演示设置</h2><button id="close-review" class="quiet">关闭</button></div><p class="help">S3 功能验证原型；蓝灰色演示样式，非正式品牌标准。本区域为评审工具，正常任务从列表或详情操作。</p><div class="review-check"><input type="checkbox" id="fail-next"><label for="fail-next">下一次合法提交模拟失败<br><span>创建、保存备注或改变状态均可触发；保留原数据及输入，之后可正常重试。</span></label></div><div class="buttons"><button id="review-cancelled">尝试完成已取消样本</button><button id="reset-data">恢复初始示例数据</button></div><p class="review-feedback" id="review-result" role="status" aria-live="polite"></p></dialog>
+  <script>
+  (() => {
+    'use strict';
+    const $ = (id) => document.getElementById(id);
+    const labels = { all:'全部', pending:'待办', done:'已完成', cancelled:'已取消' };
+    const initial = [
+      { id:1, title:'准备周报', note:'核对本周任务', status:'pending' },
+      { id:2, title:'整理会议记录', note:'已同步结论', status:'done' },
+      { id:3, title:'采购旧型号配件', note:'', status:'cancelled' },
+      { id:4, title:'整理并核对个人任务系统在手机窄屏上显示较长任务标题及完整备注时的可读性', note:'先查看任务列表中的完整标题，再打开详情阅读备注。\n核对换行、输入区域和底部操作是否容易找到。\n这是一条用于检查长内容阅读的示例备注。', status:'pending' }
+    ];
+    let tasks = initial.map(t => ({...t}));
+    let nextId = 5;
+    let filter = 'all';
+    let activeId = null;
+    let busy = false;
+    function notify(message, kind='success') { $('feedback').textContent=message; $('feedback').dataset.kind=kind; $('feedback').hidden=false; }
+    function clearFeedback() { $('feedback').hidden=true; $('feedback').textContent=''; }
+    function task() { return tasks.find(t=>t.id===activeId); }
+    function renderList() {
+      document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));
+      const visible=tasks.filter(t=>filter==='all'||t.status===filter);
+      $('task-count').textContent=`${labels[filter]} · ${visible.length} 项任务`;
+      $('task-list').replaceChildren();
+      for (const t of visible) {
+        const li=document.createElement('li');
+        const row=document.createElement('button'); row.type='button'; row.className='task-row'; row.dataset.taskId=t.id; row.setAttribute('aria-label',`查看任务：${t.title}，${labels[t.status]}`);
+        const symbol=document.createElement('span'); symbol.className=`task-symbol ${t.status}`; symbol.setAttribute('aria-hidden','true'); symbol.textContent=t.status==='done'?'✓':t.status==='cancelled'?'−':'';
+        const copy=document.createElement('span'); copy.className='task-copy';
+        const title=document.createElement('span'); title.className='task-title'; title.textContent=t.title;
+        const note=document.createElement('span'); note.className='task-note'; note.textContent=t.note||'暂无备注';
+        copy.append(title,note);
+        const meta=document.createElement('span'); meta.className='task-meta';
+        const badge=document.createElement('span'); badge.className=`badge ${t.status}`; badge.textContent=labels[t.status];
+        const arrow=document.createElement('span'); arrow.className='arrow'; arrow.textContent='›'; arrow.setAttribute('aria-hidden','true'); meta.append(badge,arrow);
+        row.append(symbol,copy,meta); row.addEventListener('click',()=>openDetail(t.id)); li.append(row); $('task-list').append(li);
+      }
+      $('empty-state').hidden=visible.length!==0;
+      $('empty-title').textContent=filter==='all'?'还没有任务':`还没有${labels[filter]}任务`;
+      $('show-all').hidden=filter==='all';
+    }
+    function setFilter(value) { filter=value; clearFeedback(); renderList(); }
+    document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>setFilter(b.dataset.filter)));
+    $('show-all').addEventListener('click',()=>setFilter('all'));
+    function setCreate(open) { $('REG-create').hidden=!open; $('open-create').setAttribute('aria-expanded',String(open)); if(open) $('create-title').focus(); else $('open-create').focus(); }
+    $('open-create').addEventListener('click',()=>setCreate($('REG-create').hidden));
+    $('close-create').addEventListener('click',()=>setCreate(false));
+    $('create-title').addEventListener('input',()=>{ $('title-error').hidden=true; $('create-title').removeAttribute('aria-invalid'); });
+    function beginWrite(button) {
+      if(busy) return false;
+      busy=true; button.disabled=true;
+      queueMicrotask(()=>{busy=false;button.disabled=false;});
+      if($('fail-next').checked) { $('fail-next').checked=false; notify('本次操作未保存（演示故障）。原数据和输入已保留，请重试。','error'); return false; }
+      return true;
+    }
+    $('create-form').addEventListener('submit',event=>{
+      event.preventDefault(); if($('REG-create').hidden) return;
+      const title=$('create-title').value.trim();
+      if(!title) { $('title-error').hidden=false; $('create-title').setAttribute('aria-invalid','true'); $('create-title').focus(); return; }
+      if(!beginWrite($('create-submit'))) return;
+      tasks.unshift({id:nextId++,title,note:$('create-note').value,status:'pending'});
+      const switched=filter!=='all'; filter='all'; renderList(); $('create-form').reset(); setCreate(false);
+      notify(switched?'任务已创建，已切换到“全部”以显示新任务。':'任务已创建，已显示在列表首项。');
+      $('task-list').querySelector('button').focus();
+    });
+    function renderTaskState() {
+      const t=task(); if(!t) return;
+      $('detail-status').className=`badge ${t.status}`; $('detail-status').textContent=labels[t.status];
+      $('detail-title').textContent=t.title;
+      $('status-explanation').textContent=t.status==='pending'?'这项任务还在待办中。完成后标记结果；不再需要处理时可以取消。':t.status==='done'?'任务已完成。如果仍需继续处理，可以恢复为待办。':'任务已取消，不能直接标记为完成。你仍可在备注中补充处理上下文。';
+      $('task-actions').replaceChildren();
+      const actions=t.status==='pending'?[['done','标记完成','primary'],['cancelled','取消任务','danger']]:t.status==='done'?[['pending','恢复为待办','primary']]:[];
+      for(const [target,label,cls] of actions) { const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.dataset.action=target;b.addEventListener('click',()=>changeStatus(target,b));$('task-actions').append(b); }
+    }
+    function openDetail(id) {
+      activeId=id; clearFeedback(); $('PAGE-01').hidden=true; $('PAGE-02').hidden=false; $('discard-confirm').hidden=true;
+      $('detail-note').value=task().note; $('note-state').textContent='已保存'; renderTaskState(); $('detail-title').focus(); window.scrollTo(0,0);
+    }
+    function hasDraft() { return task() && $('detail-note').value!==task().note; }
+    $('detail-note').addEventListener('input',()=>{ $('note-state').textContent=hasDraft()?'有未保存的修改':'已保存'; });
+    $('note-form').addEventListener('submit',event=>{
+      event.preventDefault(); if(!task() || !beginWrite($('save-note'))) return;
+      task().note=$('detail-note').value; $('note-state').textContent='已保存'; $('discard-confirm').hidden=true; renderList(); notify('备注已保存。');
+    });
+    function allowed(from,to) { return (from==='pending'&&(to==='done'||to==='cancelled'))||(from==='done'&&to==='pending'); }
+    function changeStatus(target,button) {
+      const t=task(); if(!t) return;
+      if(!allowed(t.status,target)) { notify(`无法操作：当前任务为${labels[t.status]}，不能执行该状态变更。`,'error'); return; }
+      if(!beginWrite(button)) return;
+      t.status=target; renderTaskState(); renderList();
+      notify(`任务${target==='pending'?'已恢复为待办':target==='done'?'已标记完成':'已取消'}。${hasDraft()?'备注修改尚未保存。':''}`); $('detail-title').focus();
+    }
+    function returnToList() {
+      const previousId=activeId; activeId=null; $('PAGE-02').hidden=true; $('PAGE-01').hidden=false; $('discard-confirm').hidden=true; clearFeedback(); renderList();
+      const row=$('task-list').querySelector(`[data-task-id="${previousId}"]`); (row||$('list-heading')).focus(); window.scrollTo(0,0);
+    }
+    $('back-list').addEventListener('click',()=>{ if(hasDraft()) { $('discard-confirm').hidden=false; $('continue-edit').focus(); } else returnToList(); });
+    $('continue-edit').addEventListener('click',()=>{ $('discard-confirm').hidden=true; $('detail-note').focus(); });
+    $('discard-return').addEventListener('click',returnToList);
+    $('open-review').addEventListener('click',()=>{ $('review-result').textContent=''; $('review-dialog').showModal(); });
+    $('close-review').addEventListener('click',()=>$('review-dialog').close());
+    $('review-cancelled').addEventListener('click',()=>{
+      const cancelled=tasks.find(t=>t.status==='cancelled');
+      if(!cancelled) { $('review-result').textContent='当前没有已取消样本；可从任务详情取消待办，或恢复初始示例数据后检查。'; return; }
+      const rejected=!allowed(cancelled.status,'done');
+      $('review-result').textContent=rejected?`操作已拒绝：“${cancelled.title}”当前为已取消，不能直接完成；状态保持已取消。`:'状态守卫异常，请记录问题。';
+    });
+    $('reset-data').addEventListener('click',()=>{
+      tasks=initial.map(t=>({...t}));nextId=5;filter='all';activeId=null;$('fail-next').checked=false;$('create-form').reset();$('title-error').hidden=true;$('create-title').removeAttribute('aria-invalid');$('REG-create').hidden=true;$('open-create').setAttribute('aria-expanded','false');$('PAGE-02').hidden=true;$('PAGE-01').hidden=false;renderList();clearFeedback();$('review-result').textContent='已恢复四条初始样本，筛选已回到“全部”。关闭设置后可从正常入口继续。';
+    });
+    renderList();
+  })();
+  </script>
+</body>
+</html>

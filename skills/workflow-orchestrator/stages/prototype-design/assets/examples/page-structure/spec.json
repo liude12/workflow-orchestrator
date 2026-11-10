@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "ref": "TEST-TASK-01@fixture-v1",
+      "kind": "TASK",
+      "path": "sources.md",
+      "sha256": "2ed9b3d71adedb7465135710ec55beda1ecdb52936c22dbcf730fa4568a61db2",
+      "locator": "TASK-01"
+    },
+    {
+      "ref": "TEST-PAGE-01@fixture-v1",
+      "kind": "PAGE",
+      "path": "sources.md",
+      "sha256": "2ed9b3d71adedb7465135710ec55beda1ecdb52936c22dbcf730fa4568a61db2",
+      "locator": "PAGE-01"
+    },
+    {
+      "ref": "TEST-FUN-01@fixture-v1",
+      "kind": "FUN",
+      "path": "sources.md",
+      "sha256": "2ed9b3d71adedb7465135710ec55beda1ecdb52936c22dbcf730fa4568a61db2",
+      "locator": "FUN-01"
+    },
+    {
+      "ref": "TEST-RULE-01@fixture-v1",
+      "kind": "RULE",
+      "path": "sources.md",
+      "sha256": "2ed9b3d71adedb7465135710ec55beda1ecdb52936c22dbcf730fa4568a61db2",
+      "locator": "RULE-01"
+    }
+  ],
+  "scope": {
+    "mode": "full",
+    "pages": [
+      "TEST-PAGE-01@fixture-v1"
+    ],
+    "tasks": [
+      "TEST-TASK-01@fixture-v1"
+    ],
+    "reason": "TEST 单页清单示例；仅演示结构，不证明实际交互"
+  },
+  "requirements": [
+    {
+      "page": "TEST-PAGE-01@fixture-v1",
+      "tasks": [
+        "TEST-TASK-01@fixture-v1"
+      ],
+      "source_refs": [
+        "TEST-FUN-01@fixture-v1",
+        "TEST-RULE-01@fixture-v1"
+      ],
+      "regions": [
+        "header",
+        "list",
+        "feedback"
+      ],
+      "states": [
+        "normal",
+        "empty"
+      ],
+      "controls": [
+        "open"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "ref": "TEST-PAGE-01@fixture-v1",
+      "regions": [
+        {
+          "id": "header",
+          "source_refs": [
+            "TEST-FUN-01@fixture-v1"
+          ],
+          "controls": []
+        },
+        {
+          "id": "list",
+          "source_refs": [
+            "TEST-FUN-01@fixture-v1",
+            "TEST-RULE-01@fixture-v1"
+          ],
+          "controls": [
+            {
+              "id": "open",
+              "source_refs": [
+                "TEST-FUN-01@fixture-v1"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "feedback",
+          "source_refs": [
+            "TEST-RULE-01@fixture-v1"
+          ],
+          "controls": []
+        }
+      ],
+      "states": [
+        {
+          "id": "normal",
+          "source_refs": [
+            "TEST-FUN-01@fixture-v1",
+            "TEST-RULE-01@fixture-v1"
+          ],
+          "regions": [
+            "list"
+          ],
+          "controls": [
+            "open"
+          ]
+        },
+        {
+          "id": "empty",
+          "source_refs": [
+            "TEST-RULE-01@fixture-v1"
+          ],
+          "regions": [
+            "list",
+            "feedback"
+          ],
+          "controls": []
+        }
+      ]
+    }
+  ]
+}

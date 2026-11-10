@@ -1,0 +1,4 @@
+interface:
+  display_name: "S3 产品方案设计"
+  short_description: "把业务场景转为功能方案和系统页面布局，用展示清晰的可交互原型实际检查功能覆盖"
+  default_prompt: "使用 $product-solution-design，接续当前项目的 S3，形成 T03 与页面布局，制作展示质量接近 S4 的功能验证原型并实际操作检查业务覆盖，列出真实待决事项。"

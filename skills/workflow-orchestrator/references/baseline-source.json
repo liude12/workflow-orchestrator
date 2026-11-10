@@ -1,0 +1,16 @@
+{
+  "business_baseline": "产品团队 AI 协作工作流建设方案 v1.1",
+  "construction_guide": "Codex 产品团队 AI 协作 Skill 体系建设指导文档 v1.0",
+  "sources": [
+    {
+      "file": "Codex%E4%BA%A7%E5%93%81%E5%9B%A2%E9%98%9FAI%E5%8D%8F%E4%BD%9CSkill%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE%E6%8C%87%E5%AF%BC%E6%96%87%E6%A1%A3.md",
+      "sha256": "da3afa61155b1b903006051d5de0fefed1fb2725a3e10a5a8074f3041717216c"
+    },
+    {
+      "file": "产品团队AI协作工作流建设方案v1.1.docx",
+      "sha256": "9322869c6b02db0916eae6083e8cd2d0b8f9acea8a9185d4b906f98bab18f435"
+    }
+  ],
+  "implementation": "local files v0.2",
+  "verified_business_project": false
+}

@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "adaptation_version": "20261110.13",
+  "licenses": {
+    "ecc": {
+      "spdx": "MIT",
+      "path": "methods/licenses/ecc-MIT.txt",
+      "sha256": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2"
+    },
+    "pm-skills": {
+      "spdx": "MIT",
+      "path": "methods/licenses/pm-skills-MIT.txt",
+      "sha256": "a2c922f9b81b4f40347ddfa79c38eda0f1278b5a6d108bd4099b4da254c774ee"
+    }
+  },
+  "sources": {
+    "ecc-market-research": {
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "url": "https://raw.githubusercontent.com/affaan-m/ECC/d2ef2680594f9a17526a6e1a2e18b3d242c5d17b/skills/market-research/SKILL.md",
+      "sha256": "8cfc36dc8a93476d092115f3fc70c631dcab14fcd6e04371160fc4fb29547800",
+      "license": "ecc"
+    },
+    "ecc-product-lens": {
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "url": "https://raw.githubusercontent.com/affaan-m/ECC/d2ef2680594f9a17526a6e1a2e18b3d242c5d17b/skills/product-lens/SKILL.md",
+      "sha256": "58b82c847304b0c4fbf456c1f4ae9205f3733e011f8cbdeed30687f111a098c6",
+      "license": "ecc"
+    },
+    "ecc-frontend-design-direction": {
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "url": "https://raw.githubusercontent.com/affaan-m/ECC/d2ef2680594f9a17526a6e1a2e18b3d242c5d17b/skills/frontend-design-direction/SKILL.md",
+      "sha256": "71a40f7bc4a28da01b54527fe5590f6055c93adc630e6ceee8c892b35c980893",
+      "license": "ecc"
+    },
+    "ecc-product-capability": {
+      "commit": "d2ef2680594f9a17526a6e1a2e18b3d242c5d17b",
+      "url": "https://raw.githubusercontent.com/affaan-m/ECC/d2ef2680594f9a17526a6e1a2e18b3d242c5d17b/skills/product-capability/SKILL.md",
+      "sha256": "c26114356edb15f0340e5af66b6f4444892bdf376b053a7152312fd04d22aced",
+      "license": "ecc"
+    },
+    "pm-interview-script": {
+      "commit": "9af7bfd0bc47fdad43c2eaa7a43cd13918e7aaef",
+      "url": "https://raw.githubusercontent.com/phuryn/pm-skills/9af7bfd0bc47fdad43c2eaa7a43cd13918e7aaef/pm-product-discovery/skills/interview-script/SKILL.md",
+      "sha256": "892ca53da9852d4e6516d2305f0c0eb2db370bf39693c6c6797154b44bec9b4c",
+      "license": "pm-skills"
+    },
+    "pm-test-scenarios": {
+      "commit": "9af7bfd0bc47fdad43c2eaa7a43cd13918e7aaef",
+      "url": "https://raw.githubusercontent.com/phuryn/pm-skills/9af7bfd0bc47fdad43c2eaa7a43cd13918e7aaef/pm-execution/skills/test-scenarios/SKILL.md",
+      "sha256": "2dc10ebb6359604275f26234d3c66c9ccc952e501ad5b685c23a5c0f34f634d4",
+      "license": "pm-skills"
+    }
+  },
+  "methods": [
+    {
+      "id": "research-evidence",
+      "entry": "methods/research-evidence/SKILL.md",
+      "sha256": "860234349a75f49449ba6a2d4b404265916553b197d93f01e020dcca50268f97",
+      "stages": [
+        "S1"
+      ],
+      "sources": [
+        "ecc-market-research",
+        "ecc-product-lens",
+        "pm-interview-script"
+      ]
+    },
+    {
+      "id": "task-solution",
+      "entry": "methods/task-solution/SKILL.md",
+      "sha256": "37e85f7b8decfe7dd6ae9f808f367901227709cde9a944e18729b241250a6ae3",
+      "stages": [
+        "S3"
+      ],
+      "sources": [],
+      "origin": "workflow-original"
+    },
+    {
+      "id": "scenario-coverage",
+      "entry": "methods/scenario-coverage/SKILL.md",
+      "sha256": "874eaa3fdf26f74c9b5d52cd34988f126e68ecf3bea8780a34dec73215a4ac6a",
+      "stages": [
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ],
+      "sources": [
+        "pm-test-scenarios"
+      ]
+    },
+    {
+      "id": "prototype-build",
+      "entry": "methods/prototype-build/SKILL.md",
+      "sha256": "e476f4c77a871c513529284e68b13daa823d51c9d1c2ca88b5a6a25759f2c075",
+      "stages": [
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "sources": [
+        "ecc-frontend-design-direction"
+      ]
+    },
+    {
+      "id": "capability-specification",
+      "entry": "methods/capability-specification/SKILL.md",
+      "sha256": "fb981c9625996c88083af63ea7141f11fa8d1565d67d503453765847431b67e7",
+      "stages": [
+        "S5"
+      ],
+      "sources": [
+        "ecc-product-capability"
+      ]
+    }
+  ]
+}
