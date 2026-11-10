@@ -71,8 +71,10 @@ python skills/workflow-orchestrator/scripts/method_check.py
 
 ## 来源与许可
 
-第三方适配方法及其 MIT 许可、署名见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和 [来源记录](skills/workflow-orchestrator/methods/provenance.md)。第三方许可证只覆盖对应来源；仓库自有内容尚未指定统一开源许可证，不能将第三方 MIT 自动扩大到整个仓库。
+本仓库自有代码与文档采用 [MIT 许可证](LICENSE)，Copyright (c) 2026 liude12。第三方适配方法继续保留各自的许可和署名，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和 [来源记录](skills/workflow-orchestrator/methods/provenance.md)。
 
 ## 版本
+
+当前发布：`20261110.14`。本版为自有内容添加 MIT 许可证，保留第三方许可；Skill 行为与使用手册内容沿用 `.13`。Skill 目录内附同一份许可证，供安装分发时保留。
 
 首次 GitHub 发布：`20261110.13`。S4 行为沿用 `.12` 的 UI/UX 可选输入规则，本版修复修改后的 `prototype-build` 文件指纹记录，并提供可从 GitHub 安装的目录。手册已适配 GitHub 仓库目录，行为规则适用当前版本。

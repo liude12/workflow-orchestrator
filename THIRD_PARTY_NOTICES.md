@@ -6,4 +6,4 @@
 - PM Skills，Copyright (c) 2026 Pawel Huryn：[MIT 许可](skills/workflow-orchestrator/methods/licenses/pm-skills-MIT.txt)。
 - [具体来源、固定提交与本地适配说明](skills/workflow-orchestrator/methods/provenance.md)。
 
-未随包提供其他插件或其原文。第三方 MIT 许可不自动覆盖本仓库自有内容或使用者的业务资料。
+仓库自有内容采用根目录的 [MIT 许可证](LICENSE)；以上第三方内容继续保留原作者署名和对应许可，不以自有版权声明替代。未随包提供其他插件或其原文，使用者自行添加的业务资料不属于本仓库的许可范围。
